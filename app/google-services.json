@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "24279191892",
+    "project_id": "tennis-scores-4f50f",
+    "storage_bucket": "tennis-scores-4f50f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24279191892:android:59f76548b5e295c73ff8c1",
+        "android_client_info": {
+          "package_name": "com.example.tennisscores"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24279191892-nij8a9ge9blsiu7e7jhh7rltrbu5d7ef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDqnc5dpEAedD5gOrAY_WwkUXQeC-vlUM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24279191892-nij8a9ge9blsiu7e7jhh7rltrbu5d7ef.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
