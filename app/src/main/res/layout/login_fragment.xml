@@ -119,10 +119,19 @@
         app:layout_constraintStart_toEndOf="@id/tvOr"
         app:layout_constraintTop_toBottomOf="@id/btnLogin" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/sign_in_btn"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:drawableLeft="@drawable/ic_google"
+        android:paddingEnd="40dp"
+        android:backgroundTint="@color/white"
+        android:text="@string/sign_in_with_google"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvOr"

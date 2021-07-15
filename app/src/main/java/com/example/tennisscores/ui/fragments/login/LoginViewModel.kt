@@ -5,22 +5,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tennisscores.communicator.Communicator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.DisposableHandle
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
 
-    private var _signInSuccess : MutableLiveData<Boolean> = MutableLiveData()
-    val signInSuccess get() = _signInSuccess
+    private var _signInWithEmailAndPasswordSuccess : MutableLiveData<Boolean> = MutableLiveData()
+    val signInWithEmailAndPasswordSuccess get() = _signInWithEmailAndPasswordSuccess
+
+    private var _signInWithGoogle : MutableLiveData<Boolean> = MutableLiveData()
+    val signInWithGoogle get() = _signInWithGoogle
 
     fun signInUser(
         emailId : String,
         password : String
     ){
         viewModelScope.launch(Dispatchers.IO) {
-            _signInSuccess.postValue(Communicator
+            _signInWithEmailAndPasswordSuccess.postValue(Communicator
                 .getFirebaseRepository()
-                .signInUser(emailId, password))
+                .signInUserWithEmailAndPassword(emailId, password))
         }
+    }
+
+    fun firebaseAuthWithGoogle(idToken : String){
+        _signInWithGoogle.postValue(Communicator.getFirebaseRepository().firebaseAuthWithGoogle(idToken))
     }
 }
