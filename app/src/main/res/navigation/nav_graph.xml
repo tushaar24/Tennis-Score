@@ -9,5 +9,18 @@
         android:id="@+id/loginFragment"
         android:name="com.example.tennisscores.ui.fragments.login.LoginFragment"
         android:label="login_fragment"
-        tools:layout="@layout/login_fragment" />
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_atpRankingFragment"
+            app:destination="@id/atpRankingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/atpRankingFragment"
+        android:name="com.example.tennisscores.ui.fragments.atpRankingFragment.AtpRankingFragment"
+        android:label="atp_ranking_fragment"
+        tools:layout="@layout/atp_ranking_fragment" >
+        <action
+            android:id="@+id/action_atpRankingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>
