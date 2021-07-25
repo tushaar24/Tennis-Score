@@ -1,6 +1,7 @@
 package com.example.tennisscores.data.firebase
 
-import android.util.Log
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -10,7 +11,7 @@ class FirebaseRepository {
 
     private var mAuth = Firebase.auth
     private var userId : String? = null
-
+    var googleSignInClient : GoogleSignInClient? = null
 
     suspend fun signInUserWithEmailAndPassword(
         emailId : String,
@@ -23,9 +24,6 @@ class FirebaseRepository {
            ).await()
 
             userId = result.user?.uid
-
-            Log.d("user", userId.toString())
-
             true
 
        }catch (e : Exception){
@@ -39,10 +37,35 @@ class FirebaseRepository {
             mAuth.signInWithCredential(credential)
             true
         }catch (e : Exception){
-            Log.d("Error", e.toString())
             false
         }
     }
 
+    fun getCurrentUser(): FirebaseUser? {
+        return mAuth.currentUser
+    }
+
+    fun logOutUser(){
+        mAuth.signOut()
+    }
+
+    suspend fun createUserWithEmailAndPassword(
+        email : String,
+        password: String
+    ): Boolean{
+        return try{
+             mAuth.createUserWithEmailAndPassword(
+                email,
+                password
+            ).await()
+            true
+        }catch (e : java.lang.Exception){
+            false
+        }
+    }
+
+    fun googleSignOut(){
+        googleSignInClient?.signOut()
+    }
 
 }

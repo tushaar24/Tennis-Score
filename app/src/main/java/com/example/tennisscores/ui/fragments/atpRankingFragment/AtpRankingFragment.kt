@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tennisscores.R
 import com.example.tennisscores.databinding.AtpRankingFragmentBinding
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.tennisscores.utils.Constants.Companion.GOOGLE_SIGN_IN
+import com.example.tennisscores.utils.Constants.Companion.USER_SIGNED_IN_METHOD
 
 class AtpRankingFragment : Fragment() {
 
@@ -20,11 +20,14 @@ class AtpRankingFragment : Fragment() {
     private var _binding : AtpRankingFragmentBinding? = null
     private val binding get() = _binding!!
     private val mAdapter by lazy { AtpRankingAdapter() }
+    private lateinit var signedInThrough : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        signedInThrough = arguments?.getString(USER_SIGNED_IN_METHOD).toString()
 
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true /* enabled by default */) {
@@ -51,7 +54,11 @@ class AtpRankingFragment : Fragment() {
         })
 
         binding.btnLogOut.setOnClickListener {
-            Firebase.auth.signOut()
+
+            if(signedInThrough == GOOGLE_SIGN_IN){
+                viewModel.googleSignOut()
+            }
+            viewModel.logOutUser()
             findNavController().navigate(R.id.action_atpRankingFragment_to_loginFragment)
         }
 

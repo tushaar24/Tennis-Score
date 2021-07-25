@@ -17,4 +17,12 @@ class AtpRankingViewModel : ViewModel() {
             rankings.postValue(response.body()?.results?.rankings)
         }
     }
+
+    fun logOutUser(){
+        Communicator.getFirebaseRepository().logOutUser()
+    }
+
+    fun googleSignOut(){
+        Communicator.getFirebaseRepository().googleSignOut()
+    }
 }

@@ -11,11 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tennisscores.R
 import com.example.tennisscores.databinding.LoginFragmentBinding
+import com.example.tennisscores.utils.Constants.Companion.GOOGLE_SIGN_IN
+import com.example.tennisscores.utils.Constants.Companion.USER_SIGNED_IN_METHOD
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
 
@@ -26,7 +26,6 @@ class LoginFragment : Fragment() {
     private val viewModel by viewModels<LoginViewModel>()
     private var _binding : LoginFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var googleSignInClient : GoogleSignInClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +33,7 @@ class LoginFragment : Fragment() {
     ): View {
         _binding = LoginFragmentBinding.inflate(layoutInflater, container, false)
 
-        if(FirebaseAuth.getInstance().currentUser != null){
+        if(viewModel.isUserSignedIn()){
             findNavController().navigate(R.id.action_loginFragment_to_atpRankingFragment)
         }
 
@@ -45,17 +44,26 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnLogin.setOnClickListener {
+
             val emailId = binding.etEmailId.text.toString().trim()
             val password = binding.etPassword.text.toString()
 
-            viewModel.signInUser(emailId, password)
+            if(emailId.isNotEmpty() && password.isNotEmpty()){
+                binding.progressBar.visibility = View.VISIBLE
+                viewModel.signInUser(emailId, password)
+            }else{
+                binding.tilEmailId.error = "field can't be empty"
+                binding.tilPassword.error = "field can't be empty"
+            }
 
             viewModel.signInWithEmailAndPasswordSuccess.observe(requireActivity() ,{ signInSuccess ->
                 if(signInSuccess){
+                    binding.progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), "Successful Login", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_loginFragment_to_atpRankingFragment)
                 }else{
                     Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.GONE
                 }
             })
         }
@@ -65,24 +73,31 @@ class LoginFragment : Fragment() {
             .requestEmail()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        viewModel.setGoogleSignInClient(requireContext(), gso)
 
         binding.signInBtn.setOnClickListener {
+
             signIn()
 
             viewModel.signInWithGoogle.observe(requireActivity(), {
                 if(it){
                     Toast.makeText(requireContext(), "Successful Login", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_loginFragment_to_atpRankingFragment)
+                    val bundle = Bundle()
+                    bundle.putString(USER_SIGNED_IN_METHOD, GOOGLE_SIGN_IN)
+                    findNavController().navigate(R.id.action_loginFragment_to_atpRankingFragment, bundle)
                 }else{
                     Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
                 }
             })
         }
+
+        binding.tvSignUp.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
     }
 
     private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
+        val signInIntent = viewModel.googleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 

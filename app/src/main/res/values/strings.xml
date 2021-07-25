@@ -9,4 +9,7 @@
     <string name="rankings_title">RANKINGS</string>
     <string name="points_title">POINTS</string>
     <string name="number_title">#</string>
+    <string name="signupText">SignUp</string>
+    <string name="confirm_password_text">Confirm Password</string>
+    <string name="textview_signup">Signup</string>
 </resources>

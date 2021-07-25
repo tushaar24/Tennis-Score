@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_atpRankingFragment"
             app:destination="@id/atpRankingFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/atpRankingFragment"
@@ -21,6 +24,15 @@
         tools:layout="@layout/atp_ranking_fragment" >
         <action
             android:id="@+id/action_atpRankingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.tennisscores.ui.fragments.signUp.SignUpFragment"
+        android:label="sign_up_fragment"
+        tools:layout="@layout/sign_up_fragment" >
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>
