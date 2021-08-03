@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -36,6 +37,16 @@ class LoginFragment : Fragment() {
         if(viewModel.isUserSignedIn()){
             findNavController().navigate(R.id.action_loginFragment_to_atpRankingFragment)
         }
+
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    //close app
+                    requireActivity().finishAffinity()
+
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         return binding.root
     }
@@ -97,7 +108,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun signIn() {
-        val signInIntent = viewModel.googleSignInClient?.signInIntent
+        val signInIntent = viewModel.googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
